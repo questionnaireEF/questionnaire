@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire - Événements d'Entreprise 📋</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3a8a, #1e40af, #3b82f6);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .title {
+            font-size: 2.5em;
+            color: #1e3a8a;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .emoji {
+            font-size: 3em;
+            margin: 0 10px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .subtitle {
+            color: #475569;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            transform: perspective(1000px) rotateX(5deg);
+            transition: transform 0.3s ease;
+        }
+
+        .info-box:hover {
+            transform: perspective(1000px) rotateX(0deg) scale(1.02);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            color: #1e3a8a;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .checkbox-group, .radio-group {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 15px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .checkbox-group:hover, .radio-group:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .checkbox-group input[type="checkbox"], 
+        .radio-group input[type="radio"] {
+            width: auto;
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .rating-group {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(59, 130, 246, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .rating-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .rating-item input[type="radio"] {
+            margin: 5px 0;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(30, 58, 138, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(30, 58, 138, 0.4);
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .success-message {
+            display: none;
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+
+        @keyframes fall {
+            to {
+                transform: translateY(600px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .auto-detection-info {
+            background: linear-gradient(135deg, #bfdbfe, #93c5fd);
+            color: #1e3a8a;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideIn 0.5s ease;
+            font-size: 0.9em;
+        }
+
+        .auto-detection-info.show {
+            display: block;
+        }
+
+        .section-title {
+            color: #1e3a8a;
+            font-size: 1.4em;
+            font-weight: bold;
+            margin: 30px 0 15px 0;
+            text-align: left;
+            border-left: 4px solid #3b82f6;
+            padding-left: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .title {
+                font-size: 2em;
+            }
+            
+            .emoji {
+                font-size: 2em;
+            }
+
+            .rating-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <div class="header">
+            <h1 class="title">
+                <span class="emoji">📋</span>
+                Questionnaire Événements
+                <span class="emoji">📊</span>
+            </h1>
+            <p class="subtitle">Votre avis compte pour améliorer nos événements d'entreprise !</p>
+        </div>
+
+        <div class="info-box">
+            <h3>🎯 Objectif du questionnaire</h3>
+            <p>Nous souhaitons mieux comprendre vos attentes concernant les événements d'entreprise pour améliorer votre expérience et proposer des activités qui vous correspondent.</p>
+            <p><strong>⏱️ Temps estimé : 3-5 minutes</strong></p>
+        </div>
+
+        <div id="autoDetectionInfo" class="auto-detection-info">
+            <span id="detectionMessage">🔍 Détection automatique de votre email en cours...</span>
+        </div>
+
+        <form id="questionnaireForm" method="POST">
+            <!-- Informations personnelles -->
+            <div class="section-title">👤 Informations personnelles</div>
+            
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="departement">Département</label>
+                <select id="departement" name="departement">
+                    <option value="">Choisissez votre département...</option>
+                    <option value="rh">Ressources Humaines</option>
+                    <option value="it">Informatique</option>
+                    <option value="marketing">Marketing</option>
+                    <option value="ventes">Ventes</option>
+                    <option value="finance">Finance</option>
+                    <option value="production">Production</option>
+                    <option value="autre">Autre</option>
+                </select>
+            </div>
+
+            <!-- Préférences événements -->
+            <div class="section-title">🎉 Préférences d'événements</div>
+
+            <div class="form-group">
+                <label>Quels types d'événements vous intéressent le plus ? (plusieurs choix possibles)</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="team-building" name="types_evenements[]" value="team-building">
+                    <label for="team-building">🤝 Team building</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="barbecue" name="types_evenements[]" value="barbecue">
+                    <label for="barbecue">🔥 Barbecue / Repas convivial</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="formation" name="types_evenements[]" value="formation">
+                    <label for="formation">📚 Formations / Conférences</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="sportif" name="types_evenements[]" value="sportif">
+                    <label for="sportif">⚽ Activités sportives</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="culturel" name="types_evenements[]" value="culturel">
+                    <label for="culturel">🎭 Sorties culturelles</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="celebration" name="types_evenements[]" value="celebration">
+                    <label for="celebration">🎊 Célébrations d'entreprise</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>À quelle fréquence souhaiteriez-vous des événements d'entreprise ?</label>
+                <div class="radio-group">
+                    <input type="radio" id="freq-mensuel" name="frequence" value="mensuel">
+                    <label for="freq-mensuel">📅 Une fois par mois</label>
+                </div>
+                <div class="radio-group">
+                    <input type="radio" id="freq-trimestriel" name="frequence" value="trimestriel">
+                    <label for="freq-trimestriel">📅 Une fois par trimestre</label>
+                </div>
+                <div class="radio-group">
+                    <input type="radio" id="freq-semestriel" name="frequence" value="semestriel">
+                    <label for="freq-semestriel">📅 Une fois par semestre</label>
+                </div>
+                <div class="radio-group">
+                    <input type="radio" id="freq-annuel" name="frequence" value="annuel">
+                    <label for="freq-annuel">📅 Une fois par an</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Quel moment préférez-vous pour les événements ?</label>
+                <div class="radio-group">
+                    <input type="radio" id="moment-pause-dej" name="moment" value="pause-dejeuner">
+                    <label for="moment-pause-dej">🍽️ Pause déjeuner</label>
+                </div>
+                <div class="radio-group">
+                    <input type="radio" id="moment-fin-journee" name="moment" value="fin-journee">
+                    <label for="moment-fin-journee">🌅 Fin de journée (17h-19h)</label>
+                </div>
+                <div class="radio-group">
+                    <input type="radio" id="moment-soiree" name="moment" value="soiree">
+                    <label for="moment-soiree">🌙 Soirée (19h et plus)</label>
+                </div>
+                <div class="radio-group">
+                    <input type="radio" id="moment-weekend" name="moment" value="weekend">
+                    <label for="moment-weekend">📅 Weekend</label>
+                </div>
+            </div>
+
+            <!-- Évaluation -->
+            <div class="section-title">⭐ Évaluation</div>
+
+            <div class="form-group">
+                <label>Comment évaluez-vous les événements d'entreprise actuels ?</label>
+                <div class="rating-group">
+                    <div class="rating-item">
+                        <div>😞</div>
+                        <input type="radio" id="eval-1" name="evaluation" value="1">
+                        <label for="eval-1">1</label>
+                    </div>
+                    <div class="rating-item">
+                        <div>😐</div>
+                        <input type="radio" id="eval-2" name="evaluation" value="2">
+                        <label for="eval-2">2</label>
+                    </div>
+                    <div class="rating-item">
+                        <div>🙂</div>
+                        <input type="radio" id="eval-3" name="evaluation" value="3">
+                        <label for="eval-3">3</label>
+                    </div>
+                    <div class="rating-item">
+                        <div>😊</div>
+                        <input type="radio" id="eval-4" name="evaluation" value="4">
+                        <label for="eval-4">4</label>
+                    </div>
+                    <div class="rating-item">
+                        <div>🤩</div>
+                        <input type="radio" id="eval-5" name="evaluation" value="5">
+                        <label for="eval-5">5</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="suggestions">Suggestions d'amélioration ou idées d'événements</label>
+                <textarea id="suggestions" name="suggestions" rows="4" placeholder="Partagez vos idées pour améliorer nos événements d'entreprise..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="commentaires">Commentaires additionnels</label>
+                <textarea id="commentaires" name="commentaires" rows="3" placeholder="Autres remarques ou suggestions..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                📊 Envoyer le questionnaire 📊
+            </button>
+        </form>
+
+        <div id="successMessage" class="success-message">
+            <h3>🎉 Questionnaire envoyé !</h3>
+            <p>Merci pour votre participation ! Vos réponses nous aideront à améliorer nos événements d'entreprise.</p>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour envoyer les événements de tracking
+        const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwE-ZTSgE6YpWw6Ilz0cdGRx_N49P-uMyYrIhZBD-EgdlicfM9d7MGWzHkjfMKWet8l6A/exec';
+        
+        async function sendToGoogleSheet(trackingData) {
+            try {
+                const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(trackingData)
+                });
+        
+                console.log('Données envoyées avec succès vers Google Sheet');
+                return true;
+            } catch (error) {
+                console.error('Erreur lors de l\'envoi vers Google Sheet:', error);
+                return false;
+            }
+        }
+
+        async function sendTrackingEvent(eventType, emailFromUrl) {
+            const trackingData = {
+                email: emailFromUrl || 'email non trouvé',
+                eventType: eventType,
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+                url: window.location.href
+            };
+
+            const success = await sendToGoogleSheet(trackingData);
+            
+            if (success) {
+                console.log('Tracking réussi');
+            } else {
+                console.log('Échec du tracking');
+            }
+        }
+
+        // Fonction pour récupérer les paramètres de l'URL
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Fonction pour valider l'email
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Fonction pour pré-remplir le champ email
+        function fillEmailField(email) {
+            const emailInput = document.getElementById('email');
+            emailInput.value = email;
+            emailInput.readOnly = true;
+            emailInput.style.backgroundColor = '#f1f5f9';
+            emailInput.style.color = '#64748b';
+            
+            // Ajouter un petit indicateur visuel
+            const label = emailInput.previousElementSibling;
+            if (label && !label.querySelector('.auto-filled')) {
+                const indicator = document.createElement('span');
+                indicator.className = 'auto-filled';
+                indicator.style.cssText = 'color: #059669; font-size: 0.8em; margin-left: 5px;';
+                indicator.textContent = '✓ Pré-rempli';
+                label.appendChild(indicator);
+            }
+        }
+
+        // Gestion du formulaire
+        document.getElementById('questionnaireForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.querySelector('.submit-btn');
+            submitBtn.style.transform = 'scale(0.95)';
+            submitBtn.innerHTML = '🔄 Envoi en cours...';
+            submitBtn.disabled = true;
+            
+            const emailFromUrl = getUrlParameter('email');
+            const emailFromForm = document.getElementById('email').value;
+            
+            // Sauvegarder l'email pour les prochaines visites
+            if (emailFromForm) {
+                localStorage.setItem('userEmail', emailFromForm);
+            }
+            
+            sendTrackingEvent('QUESTIONNAIRE_SUBMITTED', emailFromUrl || emailFromForm);
+            
+            setTimeout(function() {
+                document.getElementById('successMessage').style.display = 'block';
+                createConfetti();
+                
+                document.getElementById('questionnaireForm').reset();
+                
+                submitBtn.style.transform = '';
+                submitBtn.innerHTML = '📊 Envoyer le questionnaire 📊';
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+
+        // Animation des confettis
+        function createConfetti() {
+            const emojis = ['🎉', '📊', '📋', '🎯', '⭐', '🎊'];
+            const container = document.querySelector('.container');
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                    confetti.style.cssText = `
+                        position: absolute;
+                        left: ${Math.random() * 100}%;
+                        top: 0;
+                        font-size: 2em;
+                        z-index: 1000;
+                        pointer-events: none;
+                        animation: fall ${2 + Math.random() * 2}s linear forwards;
+                    `;
+                    
+                    container.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 100);
+            }
+        }
+
+        // Initialisation de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation des emojis
+            const emojis = document.querySelectorAll('.emoji');
+            emojis.forEach((emoji, index) => {
+                emoji.style.animationDelay = index * 0.2 + 's';
+            });
+
+            // Vérifier si l'email est déjà dans l'URL
+            const emailFromUrl = getUrlParameter('email');
+            
+            if (emailFromUrl) {
+                // Email déjà dans l'URL, pré-remplir le champ
+                fillEmailField(decodeURIComponent(emailFromUrl));
+                sendTrackingEvent('QUESTIONNAIRE_PAGE_VISITED', emailFromUrl);
+            } else {
+                sendTrackingEvent('QUESTIONNAIRE_PAGE_VISITED', null);
+            }
+        });
+    </script>
+</body>
+</html>
