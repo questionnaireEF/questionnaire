@@ -510,6 +510,7 @@
                 createConfetti();
                 
                 document.getElementById('questionnaireForm').reset();
+                document.getElementById('questionnaireForm').style.display = 'none';
                 
                 submitBtn.style.transform = '';
                 submitBtn.innerHTML = '📊 Envoyer le questionnaire 📊';
@@ -560,6 +561,9 @@
             } else {
                 sendTrackingEvent('QUESTIONNAIRE_PAGE_VISITED', null);
             }
+            const url = new URL(window.location);
+            url.search = ''; // Vide tous les query params
+            window.history.replaceState({}, document.title, url.toString());
         });
     </script>
 </body>
